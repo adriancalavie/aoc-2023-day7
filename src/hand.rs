@@ -42,6 +42,7 @@ impl From<&str> for Hand {
 
 impl Hand {
     pub(crate) fn get_type(&self) -> HandType {
+        println!("{:?}", self);
         let freq_map = Card::freq_map(&self.cards);
 
         let max_value = *freq_map.values().max().unwrap_or(&0);

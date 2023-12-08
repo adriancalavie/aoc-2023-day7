@@ -33,8 +33,8 @@ fn main() {
     let mut hands: Vec<Hand> = Vec::new();
     for line in lines {
         let hand = Hand::from(line.as_str());
-        let hand_type = hand.get_type();
-        println!("{:?} {:?}", hand_type, hand);
+        // let hand_type = hand.get_type();
+        // println!("{:?} {:?}", hand_type, hand);
         hands.push(hand);
     }
 

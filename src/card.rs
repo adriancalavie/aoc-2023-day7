@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 pub(crate) enum Card {
+    Jester,
     Two,
     Three,
     Four,
@@ -11,7 +12,6 @@ pub(crate) enum Card {
     Eight,
     Nine,
     Ten,
-    Jester,
     Queen,
     King,
     Ace,
@@ -80,6 +80,27 @@ impl Card {
             *map.entry(c).or_insert(0) += 1;
         });
 
+        if let Some(&jester_count) = map.get(&Card::Jester) {
+            println!("\tfound jesters: {}", jester_count);
+            if let Some(max_and_not_jester) = map
+                .iter_mut()
+                .filter(|(c, _)| !c.is_jester())
+                .max_by(|a, b| {
+                    if a.1 == b.1 {
+                        a.0.cmp(b.0)
+                    } else {
+                        a.1.cmp(&b.1)
+                    }
+                })
+                .map(|(c, _)| *c)
+            {
+                *map.entry(max_and_not_jester).or_insert(0) += jester_count;
+                *map.entry(&Card::Jester).or_insert(0) = 0;
+            }
+        }
         map
+    }
+    pub(crate) fn is_jester(&self) -> bool {
+        *self == Card::Jester
     }
 }
